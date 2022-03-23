@@ -71,19 +71,20 @@ module.exports = {
     login(req, res) {
         User.findOne({
             where: {
-                username: req.body.username,
+                username: req.body.username
             }
         })
         .then (users => {
             if(!users)
             return res.status(400).json({
                 status: 'failed',
-                errors: ["email doesn't exist"]
+                errors: ["username doesn't exist"]
             
             })
-            const passwordCorrect = (password = req.body.password)
+            const passwordCorrect = password = req.body.password
             console.log(passwordCorrect);
-            if(!passwordCorrect) {
+            
+            if(passwordCorrect !== users.password) {
                 return res.status(400).json({
                     status: 'failed',
                     error: ["wrong password!"]
@@ -98,5 +99,8 @@ module.exports = {
                     status: 'failed',
                     error: [err.message]
                 }))        
-            }
+            },
+        loginIndex(req, res) {
+            res.render("login")
+        }
 }

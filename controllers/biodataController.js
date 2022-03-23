@@ -24,10 +24,11 @@ module.exports = {
         try {
             const biodata = await Biodata.create({
                 email: req.body.email,
-                firstName: req.body.firstname,
+                firstName: req.body.firstame,
                 lastName: req.body.lastname,
                 password: req.body.password,
-                address: req.body.address
+                address: req.body.address,
+                userId: req.body.userId
             })
         return res.status(200).json({
             status: 'success',
@@ -94,10 +95,15 @@ module.exports = {
     },
     async updateBiodata(req, res) {
             const userId = req.params.id
-            const {email, password, firstName, lastName, address} = req.body
+            const {email, password, firstname, lastname, address} = req.body
         return await Biodata.update(
             {
-                email, password
+                email: email,
+                password: password,
+                firstName: firstname,
+                lastName: lastname,
+                address: address
+
             },
             {
             where: {
@@ -106,10 +112,14 @@ module.exports = {
             })
             .then((data => {
                 Biodata.update({
-                    firstName, lastName, address
+                    firstname,
+                    lastname, 
+                    address,
+                    email,
+                    password
                 },
                     {where: {
-                        userId: userId
+                        id: userId
                     }
                 })
                 res.status(200).json({

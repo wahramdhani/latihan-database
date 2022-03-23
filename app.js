@@ -18,6 +18,8 @@ app.use(
         extended:true
     })
 );
+app.set("view engine", "ejs")
+app.set(express.static("public"))
 
 app.use('/', superAdmin)
 app.use('/', biodata)
